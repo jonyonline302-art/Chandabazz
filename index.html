@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>চাঁদাবাজ: কারওয়ান বাজার অভিযান (Chanda Baz 3D 2.0)</title>
+  <title>চাঁদাবাজ: কারওয়ান বাজার অভিযান (Chanda Baz 3D)</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts for authentic Bangla Signage & UI -->
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700;800&family=Galada&display=swap" rel="stylesheet">
@@ -28,28 +28,11 @@
       overflow: hidden;
       width: 100%;
       height: 100%;
-      background: #05070a;
+      background: #0f172a;
     }
     .bangla-title {
       font-family: 'Galada', cursive;
     }
-    /* Neon glow signs */
-    .neon-glow-red {
-      text-shadow: 0 0 10px #ff2a2a, 0 0 20px #ff2a2a, 0 0 40px #ff0055;
-    }
-    .neon-glow-green {
-      text-shadow: 0 0 10px #00ff88, 0 0 20px #00ff88, 0 0 35px #059669;
-    }
-    .neon-glow-yellow {
-      text-shadow: 0 0 10px #facc15, 0 0 25px #eab308;
-    }
-    /* CRT Scanline & vignette atmosphere */
-    .crt-overlay {
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-      background-size: 100% 3px, 6px 100%;
-      pointer-events: none;
-    }
-    /* Screen shake on mob assault */
     .shake {
       animation: shake 0.18s cubic-bezier(.36,.07,.19,.97) infinite;
     }
@@ -59,7 +42,6 @@
       30%, 50%, 70% { transform: translate3d(-6px, 4px, 0); }
       40%, 60% { transform: translate3d(6px, -4px, 0); }
     }
-    /* Comic book POW hit effect */
     @keyframes comicHit {
       0% { transform: scale(0.3) rotate(-20deg); opacity: 0; }
       50% { transform: scale(1.3) rotate(10deg); opacity: 1; }
@@ -74,10 +56,9 @@
 
   <!-- 3D WebGL Canvas Container -->
   <div id="canvas-container" class="w-full h-full absolute inset-0 z-0"></div>
-  <div class="crt-overlay absolute inset-0 z-10"></div>
 
   <!-- HUD Overlay -->
-  <div id="hud" class="absolute inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5 hidden">
+  <div id="hud" class="absolute inset-0 pointer-events-none z-20 flex flex-col justify-between p-3 sm:p-5">
     <!-- Top Stats Bar -->
     <div class="flex items-start justify-between w-full">
       <!-- Total Chanda Collected -->
@@ -91,7 +72,7 @@
         </div>
       </div>
 
-      <!-- Center Dynamic Alert & Combo -->
+      <!-- Center Alerts -->
       <div class="flex flex-col items-center">
         <div id="hud-alert" class="hidden bg-red-600 text-white font-extrabold px-4 py-1.5 rounded-full shadow-lg text-xs sm:text-sm animate-bounce border-2 border-white tracking-wide">
           ⚠️ ছাত্র জনতা সংগঠিত হচ্ছে! সাবধান!
@@ -118,14 +99,14 @@
     <!-- Minimap Radar -->
     <div class="absolute top-20 right-4 sm:right-6 pointer-events-auto">
       <div class="relative bg-black/80 border-2 border-slate-700/80 rounded-2xl p-1 shadow-2xl backdrop-blur-md">
-        <canvas id="minimap" width="120" height="120" class="rounded-xl"></canvas>
+        <canvas id="minimap" width="110" height="110" class="rounded-xl"></canvas>
         <div class="text-[9px] text-slate-400 text-center mt-1 font-semibold">কারওয়ান বাজার রাডার</div>
       </div>
     </div>
 
-    <!-- Bottom Controls & Action Prompts -->
+    <!-- Bottom Controls & Hints -->
     <div class="flex items-end justify-between w-full pointer-events-none pb-2">
-      <!-- Virtual Joystick for Mobile -->
+      <!-- Mobile Joystick -->
       <div id="joystick-zone" class="w-32 h-32 relative pointer-events-auto block md:hidden bg-white/10 rounded-full border border-white/20 backdrop-blur-sm touch-none">
         <div id="joystick-knob" class="w-14 h-14 bg-amber-500/80 border-2 border-white rounded-full absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-xl pointer-events-none"></div>
       </div>
@@ -133,10 +114,10 @@
       <!-- Action Prompt Banner -->
       <div id="extort-hint" class="hidden mx-auto bg-amber-500 text-black font-black px-6 py-2.5 rounded-full shadow-2xl text-base sm:text-lg border-2 border-yellow-200 pointer-events-auto animate-pulse flex items-center space-x-2">
         <i class="fa-solid fa-sack-dollar text-xl"></i>
-        <span>দোকানে ঢুকে চাঁদা সংগ্রহ করুন! [SPACE / TAP]</span>
+        <span>দোকানে চাঁদা সংগ্রহ করুন! [SPACE / TAP]</span>
       </div>
 
-      <!-- Mobile Extort Action Button -->
+      <!-- Mobile Button -->
       <div class="block md:hidden pointer-events-auto">
         <button id="mobile-extort-btn" class="w-20 h-20 bg-gradient-to-tr from-amber-600 to-yellow-400 rounded-full border-4 border-white flex flex-col items-center justify-center text-white active:scale-90 transition-transform shadow-2xl">
           <i class="fa-solid fa-hand-holding-dollar text-2xl"></i>
@@ -146,7 +127,7 @@
     </div>
   </div>
 
-  <!-- Comic Visual Hit Float Layer -->
+  <!-- Comic Hit Burst Layer -->
   <div id="hit-fx-layer" class="absolute inset-0 pointer-events-none z-30 flex items-center justify-center hidden">
     <div id="hit-badge" class="bg-yellow-400 border-4 border-red-600 px-6 py-4 rounded-3xl transform rotate-[-6deg] shadow-2xl text-red-700 font-black text-3xl sm:text-5xl hit-burst uppercase tracking-tighter">
       ধমাধম! গণধোলাই! 💥
@@ -154,12 +135,9 @@
   </div>
 
   <!-- Start Screen Modal -->
-  <div id="start-modal" class="absolute inset-0 z-40 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="max-w-md w-full bg-slate-900/95 border-2 border-amber-500/80 rounded-3xl p-6 sm:p-8 text-center text-white shadow-2xl relative overflow-hidden">
-      <!-- Neon Decorative Strip -->
-      <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-24 bg-amber-500/20 rounded-full blur-2xl"></div>
-
-      <div class="text-amber-400 text-4xl sm:text-5xl font-black bangla-title tracking-wide mb-1 neon-glow-yellow">
+  <div id="start-modal" class="absolute inset-0 z-40 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="max-w-md w-full bg-slate-900 border-2 border-amber-500/80 rounded-3xl p-6 sm:p-8 text-center text-white shadow-2xl relative">
+      <div class="text-amber-400 text-4xl sm:text-5xl font-black bangla-title tracking-wide mb-1">
         চাঁদাবাজ
       </div>
       <div class="text-xs uppercase font-extrabold text-slate-300 tracking-[0.25em] mb-4">
@@ -172,10 +150,10 @@
           <span>খেলার নিয়ম ও নির্দেশনা:</span>
         </div>
         <p class="text-xs leading-relaxed text-slate-300">
-          • <b class="text-amber-300">দোকান থেকে চাঁদা আদায়:</b> কারওয়ান বাজারের আড়ৎগুলোর সামনে যান এবং টাকা তুলে নিন।<br>
-          • <b class="text-yellow-300">মানুষ ও রিকশা:</b> বাজারে সাধারণ মানুষ ও রিকশা চলাচল করছে।<br>
-          • <b class="text-rose-400">ছাত্র জনতা থেকে সাবধান:</b> যত বেশি টাকা তুলবেন, বাজারে তত বেশি ছাত্র জনতা লাঠি ও প্ল্যাকার্ড নিয়ে প্রতিরোধ গড়ে তুলবে!<br>
-          • <b class="text-red-500">ধরা খেলে গণধোলাই:</b> একবার ধরা পড়লে চারপাশ থেকে ছাত্র জনতা ঘিরে ধরে গণধোলাই দিবে!
+          • <b class="text-amber-300">দোকান থেকে চাঁদা তুলুন:</b> দোকানের হলুদ বৃত্তে দাঁড়ান এবং স্পেস চাপুন।<br>
+          • <b class="text-yellow-300">রিকশা ও সাধারণ মানুষ:</b> কারওয়ান বাজারে জীবন্ত মানুষ ও রিকশা ঘুরছে।<br>
+          • <b class="text-rose-400">ছাত্র জনতা:</b> যত টাকা তুলবেন, ছাত্র জনতা তত বেশি লাঠি ও প্ল্যাকার্ড নিয়ে প্রতিরোধে নামবে!<br>
+          • <b class="text-red-500">ধরা খেলে গণধোলাই:</b> ছাত্র জনতার গায়ে লাগলেই চারপাশ থেকে ঘিরে গণধোলাই শুরু হবে!
         </p>
         <div class="pt-2 border-t border-slate-700 flex justify-between items-center text-xs text-slate-400">
           <span>🎮 কিবোর্ড: <b>W, A, S, D / Arrow</b></span>
@@ -186,11 +164,10 @@
       <button id="btn-start" class="w-full py-4 bg-gradient-to-r from-amber-500 via-yellow-500 to-amber-600 hover:from-amber-400 hover:to-yellow-500 text-black font-extrabold text-xl rounded-2xl shadow-xl transform active:scale-95 transition-all">
         খেলা শুরু করুন 🚀
       </button>
-      <div class="text-[11px] text-slate-500 mt-3 font-semibold">মোবাইল ও পিসিতে স্মুথ 3D কন্ট্রোল সাপোর্টেড</div>
     </div>
   </div>
 
-  <!-- Game Over Screen (গণধোলাই মোড) -->
+  <!-- Game Over Screen -->
   <div id="gameover-modal" class="absolute inset-0 z-50 bg-red-950/95 backdrop-blur-lg flex items-center justify-center p-4 hidden">
     <div class="max-w-md w-full bg-slate-950 border-4 border-red-600 rounded-3xl p-6 sm:p-8 text-center text-white shadow-2xl relative">
       <div class="text-red-500 text-4xl sm:text-6xl font-black mb-2 animate-bounce uppercase">
@@ -200,7 +177,7 @@
         ছাত্র জনতার হাতে গণধোলাই!
       </div>
       <p class="text-xs text-red-200/90 mb-6">
-        কারওয়ান বাজারের আড়তদার ও ছাত্র জনতা ঐক্যবদ্ধ হয়ে চাঁদাবাজকে উপযুক্ত শিক্ষা দিল!
+        কারওয়ান বাজারের আড়তদার ও ছাত্র জনতা এক হয়ে চাঁদাবাজকে ধরে গণধোলাই দিল!
       </p>
 
       <div class="bg-black/60 rounded-2xl p-4 border border-red-500/40 mb-6 space-y-2">
@@ -220,316 +197,196 @@
     </div>
   </div>
 
-  <!-- Sound Engine & Game Architecture -->
   <script>
     /* =========================================================
-       1. SYNTHETIC WEB AUDIO ENGINE (Dhaka Sounds & Mob Impacts)
+       AUDIO ENGINE
        ========================================================= */
-    class DhakaAudioEngine {
+    class SoundEngine {
       constructor() {
         this.ctx = null;
-        this.isMuted = false;
       }
       init() {
         if (!this.ctx) {
           const AudioContext = window.AudioContext || window.webkitAudioContext;
           this.ctx = new AudioContext();
-          this.startMarketAmbience();
         }
       }
-      // Low-frequency noisy market crowd hum
-      startMarketAmbience() {
-        try {
-          const bufferSize = this.ctx.sampleRate * 2;
-          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-          const data = buffer.getChannelData(0);
-          for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.04;
-          }
-          const noise = this.ctx.createBufferSource();
-          noise.buffer = buffer;
-          noise.loop = true;
-
-          const filter = this.ctx.createBiquadFilter();
-          filter.type = 'lowpass';
-          filter.frequency.value = 350;
-
-          const gain = this.ctx.createGain();
-          gain.gain.value = 0.3;
-
-          noise.connect(filter);
-          filter.connect(gain);
-          gain.connect(this.ctx.destination);
-          noise.start();
-        } catch(e) {}
-      }
-      // Cash chime sound
       playCashChime() {
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        const osc1 = this.ctx.createOscillator();
-        const osc2 = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(987.77, now); // B5
-        osc1.frequency.exponentialRampToValueAtTime(1318.51, now + 0.12); // E6
-
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(1318.51, now + 0.08);
-        osc2.frequency.exponentialRampToValueAtTime(1975.53, now + 0.25); // B6
-
-        gain.gain.setValueAtTime(0.25, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-
-        osc1.connect(gain);
-        osc2.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc1.start(now);
-        osc2.start(now + 0.05);
-        osc1.stop(now + 0.35);
-        osc2.stop(now + 0.35);
-      }
-      // Rickshaw Bell "Tring Tring"
-      playRickshawBell() {
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        for (let i = 0; i < 2; i++) {
-          const osc = this.ctx.createOscillator();
-          const gain = this.ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(2400 + i * 200, now + (i * 0.1));
-          gain.gain.setValueAtTime(0.12, now + (i * 0.1));
-          gain.gain.exponentialRampToValueAtTime(0.001, now + (i * 0.1) + 0.08);
-          osc.connect(gain);
-          gain.connect(this.ctx.destination);
-          osc.start(now + (i * 0.1));
-          osc.stop(now + (i * 0.1) + 0.09);
-        }
-      }
-      // Heavy Mob Beating / গণধোলাই Punch Impact
-      playMobPunch() {
-        if (!this.ctx) return;
-        const now = this.ctx.currentTime;
-        
-        // Deep Thud (Bass punch)
-        const subOsc = this.ctx.createOscillator();
-        const subGain = this.ctx.createGain();
-        subOsc.type = 'sine';
-        subOsc.frequency.setValueAtTime(160, now);
-        subOsc.frequency.exponentialRampToValueAtTime(30, now + 0.25);
-        subGain.gain.setValueAtTime(0.7, now);
-        subGain.gain.exponentialRampToValueAtTime(0.01, now + 0.28);
-        subOsc.connect(subGain);
-        subGain.connect(this.ctx.destination);
-        subOsc.start(now);
-        subOsc.stop(now + 0.3);
-
-        // Slap Crack (Noise burst)
-        const buffer = this.ctx.createBuffer(1, this.ctx.sampleRate * 0.1, this.ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < buffer.length; i++) data[i] = (Math.random() * 2 - 1);
-        const noise = this.ctx.createBufferSource();
-        noise.buffer = buffer;
-        const noiseGain = this.ctx.createGain();
-        noiseGain.gain.setValueAtTime(0.4, now);
-        noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-        noise.connect(noiseGain);
-        noiseGain.connect(this.ctx.destination);
-        noise.start(now);
-      }
-      // Whistle Alarm when crowd scales
-      playPoliceWhistle() {
         if (!this.ctx) return;
         const now = this.ctx.currentTime;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(2600, now);
-        osc.frequency.linearRampToValueAtTime(2900, now + 0.05);
-        osc.frequency.linearRampToValueAtTime(2600, now + 0.1);
-        gain.gain.setValueAtTime(0.2, now);
-        gain.gain.linearRampToValueAtTime(0.001, now + 0.35);
+        osc.frequency.setValueAtTime(1046.5, now);
+        osc.frequency.exponentialRampToValueAtTime(1567.98, now + 0.18);
+        gain.gain.setValueAtTime(0.3, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.35);
+        osc.stop(now + 0.3);
       }
-      // Voice line: এই মামা চাঁদা দে!
+      playMobPunch() {
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(180, now);
+        osc.frequency.exponentialRampToValueAtTime(40, now + 0.2);
+        gain.gain.setValueAtTime(0.7, now);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.22);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.25);
+      }
       speakBanglaExtort() {
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
           const utterance = new SpeechSynthesisUtterance('এই মামা চাঁদা দে');
           utterance.lang = 'bn-BD';
-          utterance.rate = 1.15;
-          utterance.pitch = 0.9;
-          utterance.volume = 1;
+          utterance.rate = 1.1;
           window.speechSynthesis.speak(utterance);
         }
       }
     }
-
-    const sound = new DhakaAudioEngine();
+    const sound = new SoundEngine();
 
     /* =========================================================
-       2. TEXTURE GENERATOR (Procedural Signboards & Faces)
+       TEXTURE GENERATOR (Cross-Browser Safe)
        ========================================================= */
-    const TextureGenerator = {
-      // Procedural Bangla Signboard Texture
-      createSignTexture: function(mainText, subText, theme) {
+    const TextureGen = {
+      createSignTexture: function(mainText, subText, bg, border) {
         const canvas = document.createElement('canvas');
         canvas.width = 512;
         canvas.height = 160;
         const ctx = canvas.getContext('2d');
 
-        // Background
-        ctx.fillStyle = theme.bg || '#047857';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Border
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, 512, 160);
         ctx.lineWidth = 10;
-        ctx.strokeStyle = theme.border || '#facc15';
-        ctx.strokeRect(5, 5, canvas.width - 10, canvas.height - 10);
+        ctx.strokeStyle = border;
+        ctx.strokeRect(5, 5, 502, 150);
 
-        // Subtext / Bismillah
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 22px "Hind Siliguri", sans-serif';
         ctx.textAlign = 'center';
-        ctx.fillText(subText || 'বিসমিল্লাহির রাহমানির রাহীম', 256, 38);
+        ctx.fillText(subText, 256, 38);
 
-        // Main Title
-        ctx.fillStyle = theme.text || '#fef08a';
-        ctx.font = '800 48px "Galada", "Hind Siliguri", sans-serif';
+        ctx.fillStyle = '#fef08a';
+        ctx.font = 'bold 44px "Galada", "Hind Siliguri", sans-serif';
         ctx.fillText(mainText, 256, 95);
 
-        // Wholesale footer
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 20px "Hind Siliguri", sans-serif';
-        ctx.fillText('পাইকারি ও খুচরা বিক্রেতা • কাওরান বাজার, ঢাকা', 256, 138);
+        ctx.fillText('পাইকারি ও খুচরা • কাওরান বাজার, ঢাকা', 256, 138);
 
-        const tex = new THREE.CanvasTexture(canvas);
-        tex.anisotropy = 4;
-        return tex;
+        return new THREE.CanvasTexture(canvas);
       },
 
-      // Expressive Procedural Human Face (Eyes, Eyebrows, Moustache, Mouth)
-      createHumanFaceTexture: function(type = 'hero') {
+      createFaceTexture: function(isHero) {
         const canvas = document.createElement('canvas');
         canvas.width = 256;
         canvas.height = 256;
         const ctx = canvas.getContext('2d');
 
-        // Base Skin tone
-        ctx.fillStyle = type === 'hero' ? '#b5835a' : '#c68652';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        // Skin
+        ctx.fillStyle = isHero ? '#b5835a' : '#c68652';
+        ctx.fillRect(0, 0, 256, 256);
 
-        // Eyes White
+        // Eyes
         ctx.fillStyle = '#ffffff';
         ctx.beginPath();
-        ctx.ellipse(80, 105, 22, 14, 0, 0, Math.PI * 2);
-        ctx.ellipse(176, 105, 22, 14, 0, 0, Math.PI * 2);
+        ctx.ellipse(80, 100, 22, 14, 0, 0, Math.PI * 2);
+        ctx.ellipse(176, 100, 22, 14, 0, 0, Math.PI * 2);
         ctx.fill();
 
-        // Pupils
-        ctx.fillStyle = '#1e1108';
+        ctx.fillStyle = '#111827';
         ctx.beginPath();
-        ctx.arc(82, 105, 9, 0, Math.PI * 2);
-        ctx.arc(174, 105, 9, 0, Math.PI * 2);
+        ctx.arc(80, 100, 8, 0, Math.PI * 2);
+        ctx.arc(176, 100, 8, 0, Math.PI * 2);
         ctx.fill();
 
-        if (type === 'hero') {
-          // Aviator / Mafia Sunglasses over eyes
-          ctx.fillStyle = 'rgba(10, 10, 15, 0.9)';
-          ctx.beginPath();
-          ctx.roundRect(55, 88, 52, 38, [8, 8, 16, 16]);
-          ctx.roundRect(149, 88, 52, 38, [8, 8, 16, 16]);
-          ctx.fill();
+        if (isHero) {
+          // Aviator Sunglasses (Cross-browser safe rects)
+          ctx.fillStyle = '#18181b';
+          ctx.fillRect(52, 85, 58, 36);
+          ctx.fillRect(146, 85, 58, 36);
           ctx.lineWidth = 4;
-          ctx.strokeStyle = '#eab308'; // Gold frame
-          ctx.stroke();
-
-          // Sunglasses bridge
+          ctx.strokeStyle = '#eab308';
+          ctx.strokeRect(52, 85, 58, 36);
+          ctx.strokeRect(146, 85, 58, 36);
+          // Bridge
           ctx.beginPath();
-          ctx.moveTo(107, 98);
-          ctx.lineTo(149, 98);
+          ctx.moveTo(110, 95);
+          ctx.lineTo(146, 95);
           ctx.stroke();
 
-          // Chandabaz Thick Moustache (গোঁফ)
+          // Mustache
           ctx.fillStyle = '#111827';
           ctx.beginPath();
-          ctx.moveTo(70, 160);
-          ctx.quadraticCurveTo(128, 140, 186, 160);
-          ctx.quadraticCurveTo(128, 182, 70, 160);
+          ctx.moveTo(75, 160);
+          ctx.quadraticCurveTo(128, 140, 181, 160);
+          ctx.quadraticCurveTo(128, 180, 75, 160);
           ctx.fill();
-
-          // Smirking Mouth
-          ctx.strokeStyle = '#601b0f';
-          ctx.lineWidth = 5;
-          ctx.beginPath();
-          ctx.arc(130, 180, 26, 0.15, Math.PI - 0.2);
-          ctx.stroke();
         } else {
-          // Chhatra Janata / Student Determinate Eyebrows & Eyes
-          ctx.fillStyle = '#111827';
-          // Angry/Fierce Eyebrows
-          ctx.lineWidth = 8;
-          ctx.strokeStyle = '#1e1b18';
+          // Student eyebrows
+          ctx.lineWidth = 6;
+          ctx.strokeStyle = '#18181b';
           ctx.beginPath();
-          ctx.moveTo(60, 92);
-          ctx.lineTo(105, 98);
-          ctx.moveTo(196, 92);
-          ctx.lineTo(151, 98);
+          ctx.moveTo(65, 88);
+          ctx.lineTo(105, 96);
+          ctx.moveTo(191, 88);
+          ctx.lineTo(151, 96);
           ctx.stroke();
 
-          // Mouth: Resolute shouted expression
+          // Resolute mouth
           ctx.fillStyle = '#450a0a';
           ctx.beginPath();
-          ctx.ellipse(128, 175, 20, 12, 0, 0, Math.PI * 2);
+          ctx.arc(128, 170, 14, 0, Math.PI * 2);
           ctx.fill();
         }
 
-        const tex = new THREE.CanvasTexture(canvas);
-        return tex;
+        return new THREE.CanvasTexture(canvas);
       },
 
-      // Student Protest Placard
       createPlacardTexture: function(text) {
         const canvas = document.createElement('canvas');
         canvas.width = 256;
         canvas.height = 128;
         const ctx = canvas.getContext('2d');
-
         ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillRect(0, 0, 256, 128);
         ctx.lineWidth = 8;
         ctx.strokeStyle = '#dc2626';
-        ctx.strokeRect(4, 4, canvas.width - 8, canvas.height - 8);
+        ctx.strokeRect(4, 4, 248, 120);
 
         ctx.fillStyle = '#b91c1c';
-        ctx.font = 'bold 28px "Hind Siliguri", sans-serif';
+        ctx.font = 'bold 26px "Hind Siliguri", sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText(text, 128, 70);
-
         return new THREE.CanvasTexture(canvas);
       }
     };
 
     /* =========================================================
-       3. 3D MODELS (Hero, Students, Rickshaws, Crowd, Alleys)
+       GAME WORLD SETUP
        ========================================================= */
-    class GameWorld {
+    class Game {
       constructor() {
         this.container = document.getElementById('canvas-container');
         this.scene = new THREE.Scene();
-        this.scene.fog = new THREE.FogExp2(0x0e131b, 0.024);
+        this.scene.background = new THREE.Color(0x0f172a);
+        this.scene.fog = new THREE.FogExp2(0x0f172a, 0.015);
 
-        this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 300);
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+        this.camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 500);
+        this.camera.position.set(0, 14, 18);
+
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer.shadowMap.enabled = true;
-        this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         this.container.appendChild(this.renderer.domElement);
 
         this.clock = new THREE.Clock();
@@ -542,7 +399,6 @@
         this.money = 0;
         this.highScore = localStorage.getItem('chandabaz_hi') || 0;
         this.combo = 1;
-        this.lastCollectTime = 0;
         this.threatLevel = 1;
         this.isGameOver = false;
         this.isMobAssaulting = false;
@@ -552,301 +408,178 @@
         this.joystickVector = { x: 0, y: 0 };
 
         this.initLights();
-        this.buildKawranbazarEnvironment();
-        this.createHeroChandabaz();
+        this.buildMarket();
+        this.buildHero();
         this.spawnStudents(3);
-        this.spawnPedestrianCrowd(16);
-        this.spawnRickshaws(4);
-        this.setupEventListeners();
+        this.spawnCrowd(12);
+        this.spawnRickshaws(3);
+        this.setupEvents();
         this.setupMinimap();
+
+        // Initial render so scene is visible immediately
+        this.renderer.render(this.scene, this.camera);
+        this.update();
       }
 
       initLights() {
-        // Night/Dusk Wholesale Market Atmosphere
-        const ambient = new THREE.AmbientLight(0x384152, 1.2);
+        const ambient = new THREE.AmbientLight(0xffffff, 0.9);
         this.scene.add(ambient);
 
-        const moonLight = new THREE.DirectionalLight(0x93c5fd, 0.7);
-        moonLight.position.set(20, 45, 20);
-        moonLight.castShadow = true;
-        moonLight.shadow.mapSize.width = 2048;
-        moonLight.shadow.mapSize.height = 2048;
-        this.scene.add(moonLight);
+        const sun = new THREE.DirectionalLight(0xffe8ba, 0.8);
+        sun.position.set(25, 45, 30);
+        sun.castShadow = true;
+        this.scene.add(sun);
       }
 
-      /* =========================================================
-         KAWRANBAZAR ALLEYWAYS & REALISTIC SHOPS
-         ========================================================= */
-      buildKawranbazarEnvironment() {
-        // Main Wet Asphalt Ground with Drainage Reflection
+      buildMarket() {
+        // Ground
         const groundGeo = new THREE.PlaneGeometry(160, 160);
-        const groundMat = new THREE.MeshStandardMaterial({
-          color: 0x181e26,
-          roughness: 0.25, // Wet slick road look
-          metalness: 0.2
-        });
+        const groundMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.6 });
         const ground = new THREE.Mesh(groundGeo, groundMat);
         ground.rotation.x = -Math.PI / 2;
         ground.receiveShadow = true;
         this.scene.add(ground);
 
-        // Alley Puddles
-        for (let i = 0; i < 8; i++) {
-          const puddleGeo = new THREE.CircleGeometry(2.5 + Math.random() * 2, 16);
-          const puddleMat = new THREE.MeshStandardMaterial({ color: 0x07090c, roughness: 0.05, metalness: 0.8 });
-          const puddle = new THREE.Mesh(puddleGeo, puddleMat);
-          puddle.rotation.x = -Math.PI / 2;
-          puddle.position.set((Math.random() - 0.5) * 60, 0.02, (Math.random() - 0.5) * 60);
-          this.scene.add(puddle);
-        }
-
-        // Overhead Tangled Electrical Cables (কারওয়ান বাজারের জটলা তার)
-        for (let i = 0; i < 14; i++) {
-          const curve = new THREE.CubicBezierCurve3(
-            new THREE.Vector3(-45, 9 + Math.random() * 2, (i - 7) * 9),
-            new THREE.Vector3(-15, 6 + Math.random() * 2, (i - 7) * 9 + 4),
-            new THREE.Vector3(15, 6 + Math.random() * 2, (i - 7) * 9 - 4),
-            new THREE.Vector3(45, 9 + Math.random() * 2, (i - 7) * 9)
-          );
-          const tubeGeo = new THREE.TubeGeometry(curve, 20, 0.04, 6, false);
-          const wireMat = new THREE.MeshBasicMaterial({ color: 0x111111 });
-          this.scene.add(new THREE.Mesh(tubeGeo, wireMat));
-        }
-
-        // Authentic Wholesale Stalls Definition
-        const stallConfigs = [
-          { name: 'মা ইলিশ মৎস্য আড়ৎ', sub: 'বিসমিল্লাহির রাহমানির রাহীম', pos: [-16, -18], theme: { bg: '#0369a1', text: '#bae6fd', border: '#38bdf8' }, type: 'fish' },
-          { name: 'সোনার বাংলা কাঁচাবাজার', sub: 'টাটকা আলু, পেঁয়াজ ও রসুন', pos: [16, -18], theme: { bg: '#15803d', text: '#fef08a', border: '#eab308' }, type: 'veggie' },
-          { name: 'কাওরান বাজার ফল মহাল', sub: 'আম, আপেল ও সাগর কলা', pos: [-16, 0], theme: { bg: '#b45309', text: '#fef3c7', border: '#f59e0b' }, type: 'fruit' },
-          { name: 'ভাই ভাই ডিমের ডিপো', sub: 'দেশী ও ফার্মের মুরগির ডিম', pos: [16, 0], theme: { bg: '#7f1d1d', text: '#fed7aa', border: '#fb923c' }, type: 'egg' },
-          { name: 'হাজী বিরিয়ানি ও চা স্টল', sub: 'রং চা, দুধ চা ও তাজা বিরিয়ানি', pos: [-16, 18], theme: { bg: '#831843', text: '#fbcfe8', border: '#f43f5e' }, type: 'tea' },
-          { name: 'কাঁচা মরিচ পাইকারি আড়ৎ', sub: 'সবুজ কাঁচা মরিচ ও আদা', pos: [16, 18], theme: { bg: '#065f46', text: '#a7f3d0', border: '#34d399' }, type: 'chili' }
+        // Wholesale Shops
+        const shopsData = [
+          { name: 'মা ইলিশ মৎস্য আড়ৎ', sub: 'বিসমিল্লাহির রাহমানির রাহীম', pos: [-15, -18], bg: '#0284c7', border: '#38bdf8' },
+          { name: 'সোনার বাংলা কাঁচাবাজার', sub: 'আলু, পেঁয়াজ ও রসুন পাইকারি', pos: [15, -18], bg: '#15803d', border: '#facc15' },
+          { name: 'কাওরান বাজার ফল মহাল', sub: 'আম, আপেল ও সাগর কলা', pos: [-15, 0], bg: '#b45309', border: '#f59e0b' },
+          { name: 'ভাই ভাই ডিমের ডিপো', sub: 'দেশী ও ফার্মের ডিমের পাইকারি', pos: [15, 0], bg: '#7f1d1d', border: '#fb923c' },
+          { name: 'হাজী বিরিয়ানি ও চা স্টল', sub: 'রং চা, দুধ চা ও বিরিয়ানি', pos: [-15, 18], bg: '#831843', border: '#f43f5e' },
+          { name: 'কাঁচা মরিচ পাইকারি আড়ৎ', sub: 'সবুজ মরিচ ও তাজা আদা', pos: [15, 18], bg: '#065f46', border: '#34d399' }
         ];
 
-        stallConfigs.forEach(conf => this.createShop(conf));
+        shopsData.forEach(d => {
+          const shop = new THREE.Group();
+          shop.position.set(d.pos[0], 0, d.pos[1]);
+
+          // Platform
+          const plat = new THREE.Mesh(new THREE.BoxGeometry(9, 0.7, 6.5), new THREE.MeshStandardMaterial({ color: 0x5a3d28 }));
+          plat.position.y = 0.35;
+          shop.add(plat);
+
+          // Roof
+          const roof = new THREE.Mesh(new THREE.BoxGeometry(10, 0.2, 7.5), new THREE.MeshStandardMaterial({ color: 0x334155 }));
+          roof.position.y = 4.0;
+          shop.add(roof);
+
+          // Signboard
+          const signMat = new THREE.MeshBasicMaterial({ map: TextureGen.createSignTexture(d.name, d.sub, d.bg, d.border) });
+          const sign = new THREE.Mesh(new THREE.PlaneGeometry(6.5, 2.0), signMat);
+          sign.position.set(0, 4.1, d.pos[0] < 0 ? 3.3 : -3.3);
+          sign.rotation.y = d.pos[0] < 0 ? 0 : Math.PI;
+          shop.add(sign);
+
+          // Cash trigger beacon
+          const trigZ = d.pos[0] < 0 ? 4.2 : -4.2;
+          const beacon = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.1, 16), new THREE.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.5 }));
+          beacon.position.set(0, 0.06, trigZ);
+          shop.add(beacon);
+
+          shop.extortBeacon = beacon;
+          shop.triggerPos = new THREE.Vector3(d.pos[0], 0, d.pos[1] + trigZ);
+          shop.cooldown = 0;
+          this.scene.add(shop);
+          this.shops.push(shop);
+        });
       }
 
-      createShop(conf) {
-        const shop = new THREE.Group();
-        shop.position.set(conf.pos[0], 0, conf.pos[1]);
-
-        // Wooden Stall Platform
-        const platformGeo = new THREE.BoxGeometry(10, 0.8, 7);
-        const woodMat = new THREE.MeshStandardMaterial({ color: 0x5a3d28, roughness: 0.9 });
-        const platform = new THREE.Mesh(platformGeo, woodMat);
-        platform.position.y = 0.4;
-        platform.castShadow = true;
-        platform.receiveShadow = true;
-        shop.add(platform);
-
-        // Weathered Bamboo Poles
-        const poleMat = new THREE.MeshStandardMaterial({ color: 0x856447, roughness: 0.8 });
-        const poleGeo = new THREE.CylinderGeometry(0.12, 0.12, 4.2);
-        [[-4.6, -3.2], [4.6, -3.2], [-4.6, 3.2], [4.6, 3.2]].forEach(p => {
-          const pole = new THREE.Mesh(poleGeo, poleMat);
-          pole.position.set(p[0], 2.1, p[1]);
-          pole.castShadow = true;
-          shop.add(pole);
-        });
-
-        // Corrugated Slanted Tin Roof (টিনের চালা)
-        const roofGeo = new THREE.BoxGeometry(11, 0.2, 8.5);
-        const roofMat = new THREE.MeshStandardMaterial({ color: 0x334155, roughness: 0.5, metalness: 0.4 });
-        const roof = new THREE.Mesh(roofGeo, roofMat);
-        roof.position.set(0, 4.3, 0);
-        roof.rotation.x = 0.12;
-        roof.castShadow = true;
-        shop.add(roof);
-
-        // Authentic Bangla Signboard with Neon Spot
-        const signMat = new THREE.MeshBasicMaterial({
-          map: TextureGenerator.createSignTexture(conf.name, conf.sub, conf.theme)
-        });
-        const signGeo = new THREE.PlaneGeometry(7.2, 2.2);
-        const sign = new THREE.Mesh(signGeo, signMat);
-        sign.position.set(0, 4.4, (conf.pos[0] < 0 ? 3.6 : -3.6));
-        sign.rotation.y = conf.pos[0] < 0 ? 0 : Math.PI;
-        shop.add(sign);
-
-        // Hanging Warm Wholesale Filament Bulb
-        const bulb = new THREE.PointLight(0xffaa44, 2, 8);
-        bulb.position.set(0, 3.6, 0);
-        shop.add(bulb);
-        const bulbMesh = new THREE.Mesh(new THREE.SphereGeometry(0.15), new THREE.MeshBasicMaterial({ color: 0xffdd88 }));
-        bulbMesh.position.copy(bulb.position);
-        shop.add(bulbMesh);
-
-        // Items based on stall type
-        if (conf.type === 'fish') {
-          // Crates with Iced Fish
-          for (let f = 0; f < 3; f++) {
-            const crate = new THREE.Mesh(new THREE.BoxGeometry(2, 0.6, 1.4), new THREE.MeshStandardMaterial({ color: 0x0284c7 }));
-            crate.position.set(-2.5 + f * 2.5, 0.9, 0);
-            shop.add(crate);
-          }
-        } else if (conf.type === 'veggie' || conf.type === 'chili') {
-          // Jute Sacks (পাটের বস্তা)
-          for (let s = 0; s < 4; s++) {
-            const sack = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.6, 1.2, 8), new THREE.MeshStandardMaterial({ color: 0xb58b59, roughness: 1 }));
-            sack.position.set(-3 + s * 1.8, 1, 0.5);
-            shop.add(sack);
-          }
-        }
-
-        // Cash Interaction Trigger Beacon
-        const beaconGeo = new THREE.CylinderGeometry(1.6, 1.6, 0.15, 24);
-        const beaconMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b, transparent: true, opacity: 0.45 });
-        const beacon = new THREE.Mesh(beaconGeo, beaconMat);
-        const triggerZ = conf.pos[0] < 0 ? 4.2 : -4.2;
-        beacon.position.set(0, 0.08, triggerZ);
-        shop.add(beacon);
-
-        shop.extortBeacon = beacon;
-        shop.triggerPos = new THREE.Vector3(conf.pos[0], 0, conf.pos[1] + triggerZ);
-        shop.name = conf.name;
-        shop.cooldown = 0;
-
-        this.scene.add(shop);
-        this.shops.push(shop);
-      }
-
-      /* =========================================================
-         EXPRESSIVE 3D CHANDABAZ (HERO)
-         ========================================================= */
-      createHeroChandabaz() {
+      buildHero() {
         this.hero = new THREE.Group();
         this.hero.position.set(0, 0, 0);
 
-        // 1. Stylized Head with Facial Texture
-        const headGeo = new THREE.BoxGeometry(0.85, 0.85, 0.85);
+        // Head with Face & Shades
         const headMaterials = [
-          new THREE.MeshStandardMaterial({ color: 0xb5835a }), // Right
-          new THREE.MeshStandardMaterial({ color: 0xb5835a }), // Left
-          new THREE.MeshStandardMaterial({ color: 0x18181b }), // Top (Hair)
-          new THREE.MeshStandardMaterial({ color: 0xb5835a }), // Bottom
-          new THREE.MeshStandardMaterial({ map: TextureGenerator.createHumanFaceTexture('hero') }), // Front (Face + Shades + Mustache)
-          new THREE.MeshStandardMaterial({ color: 0x18181b })  // Back Hair
+          new THREE.MeshStandardMaterial({ color: 0xb5835a }),
+          new THREE.MeshStandardMaterial({ color: 0xb5835a }),
+          new THREE.MeshStandardMaterial({ color: 0x18181b }),
+          new THREE.MeshStandardMaterial({ color: 0xb5835a }),
+          new THREE.MeshStandardMaterial({ map: TextureGen.createFaceTexture(true) }),
+          new THREE.MeshStandardMaterial({ color: 0x18181b })
         ];
-        const head = new THREE.Mesh(headGeo, headMaterials);
+        const head = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.85, 0.85), headMaterials);
         head.position.y = 2.45;
-        head.castShadow = true;
         this.hero.add(head);
 
-        // 2. Torso: Red Half-Shirt with open collar & Gold Chain
-        const bodyGeo = new THREE.BoxGeometry(1.0, 1.15, 0.6);
-        const bodyMat = new THREE.MeshStandardMaterial({ color: 0xdc2626 }); // Bold Red shirt
-        const body = new THREE.Mesh(bodyGeo, bodyMat);
+        // Red Shirt Body
+        const body = new THREE.Mesh(new THREE.BoxGeometry(1.0, 1.15, 0.6), new THREE.MeshStandardMaterial({ color: 0xdc2626 }));
         body.position.y = 1.6;
-        body.castShadow = true;
         this.hero.add(body);
 
-        // Gold Chain necklace (সোনার চেইন)
-        const chainGeo = new THREE.TorusGeometry(0.28, 0.04, 8, 16);
-        const chainMat = new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.9, roughness: 0.1 });
-        const chain = new THREE.Mesh(chainGeo, chainMat);
+        // Gold Chain
+        const chain = new THREE.Mesh(new THREE.TorusGeometry(0.26, 0.035, 8, 16), new THREE.MeshStandardMaterial({ color: 0xfacc15, metalness: 0.8 }));
         chain.position.set(0, 1.95, 0.28);
         chain.rotation.x = Math.PI / 4;
         this.hero.add(chain);
 
-        // 3. Traditional Bengali Lungi (লুঙ্গি)
-        const lungiGeo = new THREE.CylinderGeometry(0.48, 0.58, 1.1, 16);
-        const lungiMat = new THREE.MeshStandardMaterial({
-          color: 0x1e3a8a, // Classic checked blue lungi color
-          roughness: 0.85
-        });
-        const lungi = new THREE.Mesh(lungiGeo, lungiMat);
+        // Blue Lungi
+        const lungi = new THREE.Mesh(new THREE.CylinderGeometry(0.48, 0.56, 1.1, 16), new THREE.MeshStandardMaterial({ color: 0x1e3a8a }));
         lungi.position.y = 0.65;
-        lungi.castShadow = true;
         this.hero.add(lungi);
 
-        // 4. Arms
-        const armGeo = new THREE.BoxGeometry(0.28, 0.9, 0.28);
+        // Arms
         const armMat = new THREE.MeshStandardMaterial({ color: 0xb5835a });
-        this.heroLeftArm = new THREE.Mesh(armGeo, armMat);
-        this.heroLeftArm.position.set(-0.68, 1.6, 0);
+        this.heroLeftArm = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.9, 0.26), armMat);
+        this.heroLeftArm.position.set(-0.66, 1.6, 0);
         this.hero.add(this.heroLeftArm);
 
-        this.heroRightArm = new THREE.Mesh(armGeo, armMat);
-        this.heroRightArm.position.set(0.68, 1.6, 0);
+        this.heroRightArm = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.9, 0.26), armMat);
+        this.heroRightArm.position.set(0.66, 1.6, 0);
         this.hero.add(this.heroRightArm);
 
-        // 5. Extortion Money Bag (টাকার বস্তা - grows with cash)
-        const sackGeo = new THREE.SphereGeometry(0.38, 12, 12);
-        const sackMat = new THREE.MeshStandardMaterial({ color: 0x15803d, roughness: 0.9 });
-        this.moneySack = new THREE.Mesh(sackGeo, sackMat);
+        // Money Bag
+        this.moneySack = new THREE.Mesh(new THREE.SphereGeometry(0.38, 12, 12), new THREE.MeshStandardMaterial({ color: 0x15803d }));
         this.moneySack.position.set(0.5, 1.1, 0.3);
         this.hero.add(this.moneySack);
 
         this.scene.add(this.hero);
       }
 
-      /* =========================================================
-         CHHATRA JANATA (STUDENT PROTEST PATROL)
-         ========================================================= */
       spawnStudents(count) {
         for (let i = 0; i < count; i++) {
           const student = new THREE.Group();
 
-          // Face with intense determined look
-          const headGeo = new THREE.BoxGeometry(0.75, 0.75, 0.75);
           const headMaterials = [
             new THREE.MeshStandardMaterial({ color: 0xc68652 }),
             new THREE.MeshStandardMaterial({ color: 0xc68652 }),
             new THREE.MeshStandardMaterial({ color: 0x18181b }),
             new THREE.MeshStandardMaterial({ color: 0xc68652 }),
-            new THREE.MeshStandardMaterial({ map: TextureGenerator.createHumanFaceTexture('student') }),
+            new THREE.MeshStandardMaterial({ map: TextureGen.createFaceTexture(false) }),
             new THREE.MeshStandardMaterial({ color: 0x18181b })
           ];
-          const head = new THREE.Mesh(headGeo, headMaterials);
+          const head = new THREE.Mesh(new THREE.BoxGeometry(0.75, 0.75, 0.75), headMaterials);
           head.position.y = 2.25;
           student.add(head);
 
-          // Headband (লাল-সবুজ বা কালো ফিতা)
-          const bandGeo = new THREE.BoxGeometry(0.8, 0.12, 0.8);
-          const bandMat = new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? 0xdc2626 : 0x16a34a });
-          const band = new THREE.Mesh(bandGeo, bandMat);
-          band.position.y = 2.45;
-          student.add(band);
+          const shirt = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.1, 0.5), new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0xf8fafc : 0x16a34a }));
+          shirt.position.y = 1.45;
+          student.add(shirt);
 
-          // Student Casual T-shirt (White, Green, or Black)
-          const shirtColors = [0xf8fafc, 0x16a34a, 0x0f172a];
-          const shirtMat = new THREE.MeshStandardMaterial({ color: shirtColors[i % shirtColors.length] });
-          const body = new THREE.Mesh(new THREE.BoxGeometry(0.9, 1.1, 0.5), shirtMat);
-          body.position.y = 1.45;
-          student.add(body);
-
-          // Denim Jeans Pants
-          const jeansMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
-          const legGeo = new THREE.BoxGeometry(0.35, 1.0, 0.35);
-          const leftLeg = new THREE.Mesh(legGeo, jeansMat);
+          const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b });
+          const leftLeg = new THREE.Mesh(new THREE.BoxGeometry(0.32, 1.0, 0.32), legMat);
           leftLeg.position.set(-0.25, 0.5, 0);
           student.add(leftLeg);
-          const rightLeg = new THREE.Mesh(legGeo, jeansMat);
+          const rightLeg = new THREE.Mesh(new THREE.BoxGeometry(0.32, 1.0, 0.32), legMat);
           rightLeg.position.set(0.25, 0.5, 0);
           student.add(rightLeg);
 
-          // Placard with Bangla Slogans
+          // Placard
           const slogans = ['চাঁদাবাজ হুশিয়ার!', 'ছাত্র জনতা এক হও', 'সিন্ডিকেট নিপাত যাক'];
-          const placardMat = new THREE.MeshBasicMaterial({
-            map: TextureGenerator.createPlacardTexture(slogans[i % slogans.length]),
-            side: THREE.DoubleSide
-          });
-          const placard = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.8), placardMat);
+          const placard = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 0.8), new THREE.MeshBasicMaterial({ map: TextureGen.createPlacardTexture(slogans[i % slogans.length]), side: THREE.DoubleSide }));
           placard.position.set(0, 3.2, 0.2);
           student.add(placard);
 
-          // Bamboo Stick Handle for Placard
           const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.8), new THREE.MeshStandardMaterial({ color: 0x92400e }));
           pole.position.set(0, 2.5, 0.2);
           student.add(pole);
 
-          // Random patrol lane placement
           const angle = Math.random() * Math.PI * 2;
-          const radius = 15 + Math.random() * 20;
-          student.position.set(Math.cos(angle) * radius, 0, Math.sin(angle) * radius);
+          const rad = 14 + Math.random() * 20;
+          student.position.set(Math.cos(angle) * rad, 0, Math.sin(angle) * rad);
 
           student.patrolTarget = new THREE.Vector3((Math.random() - 0.5) * 40, 0, (Math.random() - 0.5) * 40);
-          student.speed = 3.6 + Math.random() * 0.8;
+          student.speed = 3.6;
           student.leftLeg = leftLeg;
           student.rightLeg = rightLeg;
 
@@ -855,152 +588,107 @@
         }
       }
 
-      /* =========================================================
-         LOCAL WHOLESALE MARKET CROWD (সাধারণ ক্রেতা ও বিক্রেতা)
-         ========================================================= */
-      spawnPedestrianCrowd(count) {
+      spawnCrowd(count) {
         for (let i = 0; i < count; i++) {
           const person = new THREE.Group();
-
-          // Head
-          const headMat = new THREE.MeshStandardMaterial({ color: 0x9f6d48 });
-          const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 12, 12), headMat);
+          const head = new THREE.Mesh(new THREE.SphereGeometry(0.3, 10, 10), new THREE.MeshStandardMaterial({ color: 0x9f6d48 }));
           head.position.y = 2.1;
           person.add(head);
 
-          // Cloth (Panjabi / Kurta)
-          const colors = [0x059669, 0xd97706, 0x475569, 0x2563eb, 0xe2e8f0];
-          const clothMat = new THREE.MeshStandardMaterial({ color: colors[i % colors.length] });
-          const body = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 1.5, 10), clothMat);
+          const colors = [0x059669, 0xd97706, 0x475569, 0x2563eb];
+          const body = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.45, 1.5, 8), new THREE.MeshStandardMaterial({ color: colors[i % colors.length] }));
           body.position.y = 1.1;
           person.add(body);
 
-          // Basket of Vegetables on Head or Shoulder (ঝুড়ি)
-          if (i % 3 === 0) {
-            const basket = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.35, 0.4, 8), new THREE.MeshStandardMaterial({ color: 0x78350f }));
-            basket.position.y = 2.55;
-            person.add(basket);
-          }
-
-          person.position.set((Math.random() - 0.5) * 60, 0, (Math.random() - 0.5) * 60);
-          person.target = new THREE.Vector3((Math.random() - 0.5) * 60, 0, (Math.random() - 0.5) * 60);
-          person.speed = 1.2 + Math.random() * 0.8;
-
+          person.position.set((Math.random() - 0.5) * 55, 0, (Math.random() - 0.5) * 55);
+          person.target = new THREE.Vector3((Math.random() - 0.5) * 55, 0, (Math.random() - 0.5) * 55);
+          person.speed = 1.5;
           this.scene.add(person);
           this.crowd.push(person);
         }
       }
 
-      /* =========================================================
-         MOVING DHAKA RICKSHAWS (রঙিন রিকশা ও হুড)
-         ========================================================= */
       spawnRickshaws(count) {
         for (let i = 0; i < count; i++) {
           const rickshaw = new THREE.Group();
-
-          // Body frame
-          const frameMat = new THREE.MeshStandardMaterial({ color: 0xd97706 });
-          const frame = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.4, 2.4), frameMat);
+          const frame = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.4, 2.4), new THREE.MeshStandardMaterial({ color: 0xd97706 }));
           frame.position.y = 0.7;
           rickshaw.add(frame);
 
-          // Painted Hood (রিকশার হুড)
-          const hoodGeo = new THREE.CylinderGeometry(0.85, 0.85, 1.4, 12, 1, false, 0, Math.PI);
-          const hoodMat = new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0x0284c7 : 0xdc2626, side: THREE.DoubleSide });
-          const hood = new THREE.Mesh(hoodGeo, hoodMat);
+          const hood = new THREE.Mesh(new THREE.CylinderGeometry(0.8, 0.8, 1.3, 12, 1, false, 0, Math.PI), new THREE.MeshStandardMaterial({ color: i % 2 === 0 ? 0x0284c7 : 0xdc2626, side: THREE.DoubleSide }));
           hood.rotation.z = Math.PI / 2;
           hood.position.set(0, 1.6, -0.4);
           rickshaw.add(hood);
 
-          // Rickshaw Puller (রিকশাচালক)
-          const puller = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.3, 1.1), new THREE.MeshStandardMaterial({ color: 0x334155 }));
-          puller.position.set(0, 1.4, 0.6);
-          rickshaw.add(puller);
-
-          // Wheels
-          const wheelGeo = new THREE.CylinderGeometry(0.5, 0.5, 0.1, 16);
-          const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
-          const wLeft = new THREE.Mesh(wheelGeo, wheelMat);
-          wLeft.rotation.z = Math.PI / 2;
-          wLeft.position.set(-0.9, 0.5, -0.4);
-          rickshaw.add(wLeft);
-
-          const wRight = new THREE.Mesh(wheelGeo, wheelMat);
-          wRight.rotation.z = Math.PI / 2;
-          wRight.position.set(0.9, 0.5, -0.4);
-          rickshaw.add(wRight);
-
-          // Route along alley axis
-          rickshaw.position.set((i - 2) * 12, 0, (Math.random() - 0.5) * 50);
-          rickshaw.direction = i % 2 === 0 ? 1 : -1;
+          rickshaw.position.set((i - 1) * 14, 0, (Math.random() - 0.5) * 50);
+          rickshaw.dir = i % 2 === 0 ? 1 : -1;
           rickshaw.speed = 3.5;
-
           this.scene.add(rickshaw);
           this.rickshaws.push(rickshaw);
         }
       }
 
-      /* =========================================================
-         INPUT & CONTROLS
-         ========================================================= */
-      setupEventListeners() {
+      setupEvents() {
         window.addEventListener('keydown', e => {
           this.keys[e.key.toLowerCase()] = true;
-          if (e.code === 'Space') this.triggerExtort();
+          if (e.code === 'Space') this.extort();
         });
         window.addEventListener('keyup', e => {
           this.keys[e.key.toLowerCase()] = false;
         });
 
-        // Mobile Virtual Joystick Handlers
-        const joystickZone = document.getElementById('joystick-zone');
+        // Mobile joystick
+        const zone = document.getElementById('joystick-zone');
         const knob = document.getElementById('joystick-knob');
         let touchId = null;
         let origin = { x: 0, y: 0 };
 
-        joystickZone.addEventListener('touchstart', e => {
-          const touch = e.changedTouches[0];
-          touchId = touch.identifier;
-          const rect = joystickZone.getBoundingClientRect();
+        zone.addEventListener('touchstart', e => {
+          const t = e.changedTouches[0];
+          touchId = t.identifier;
+          const rect = zone.getBoundingClientRect();
           origin = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
         });
 
         window.addEventListener('touchmove', e => {
           if (touchId === null) return;
           for (let i = 0; i < e.changedTouches.length; i++) {
-            const touch = e.changedTouches[i];
-            if (touch.identifier === touchId) {
-              const dx = touch.clientX - origin.x;
-              const dy = touch.clientY - origin.y;
+            const t = e.changedTouches[i];
+            if (t.identifier === touchId) {
+              const dx = t.clientX - origin.x;
+              const dy = t.clientY - origin.y;
               const dist = Math.min(Math.hypot(dx, dy), 45);
               const angle = Math.atan2(dy, dx);
-
               const kx = Math.cos(angle) * dist;
               const ky = Math.sin(angle) * dist;
               knob.style.transform = `translate(calc(-50% + ${kx}px), calc(-50% + ${ky}px))`;
-
-              this.joystickVector.x = kx / 45;
-              this.joystickVector.y = ky / 45;
+              this.joystickVector = { x: kx / 45, y: ky / 45 };
             }
           }
         }, { passive: false });
 
-        const resetJoystick = () => {
+        const resetJoy = () => {
           touchId = null;
           knob.style.transform = 'translate(-50%, -50%)';
           this.joystickVector = { x: 0, y: 0 };
         };
-        window.addEventListener('touchend', resetJoystick);
-        window.addEventListener('touchcancel', resetJoystick);
+        window.addEventListener('touchend', resetJoy);
+        window.addEventListener('touchcancel', resetJoy);
 
-        // Mobile Buttons
         document.getElementById('mobile-extort-btn').addEventListener('touchstart', e => {
           e.preventDefault();
-          this.triggerExtort();
+          this.extort();
         });
 
-        document.getElementById('btn-start').addEventListener('click', () => this.startGame());
-        document.getElementById('btn-restart').addEventListener('click', () => this.restartGame());
+        document.getElementById('btn-start').addEventListener('click', () => {
+          sound.init();
+          document.getElementById('start-modal').classList.add('hidden');
+          this.isPlaying = true;
+        });
+
+        document.getElementById('btn-restart').addEventListener('click', () => {
+          this.restart();
+        });
 
         window.addEventListener('resize', () => {
           this.camera.aspect = window.innerWidth / window.innerHeight;
@@ -1009,127 +697,53 @@
         });
       }
 
-      startGame() {
-        sound.init();
-        document.getElementById('start-modal').classList.add('hidden');
-        document.getElementById('hud').classList.remove('hidden');
-        this.isPlaying = true;
-      }
-
-      /* =========================================================
-         EXTORTION MECHANIC ("এই মামা চাঁদা দে")
-         ========================================================= */
-      triggerExtort() {
+      extort() {
         if (!this.isPlaying || this.isGameOver || this.isMobAssaulting) return;
 
-        let extorted = false;
         this.shops.forEach(shop => {
-          const dist = this.hero.position.distanceTo(shop.triggerPos);
-          if (dist < 3.2 && shop.cooldown <= 0) {
-            extorted = true;
-            shop.cooldown = 12; // Cooldown before shop has cash again
-
-            // Combo multiplier check (extorting quickly increases score)
-            const now = performance.now();
-            if (now - this.lastCollectTime < 5000) {
-              this.combo = Math.min(this.combo + 1, 4);
-            } else {
-              this.combo = 1;
-            }
-            this.lastCollectTime = now;
-
-            const baseMoney = 500;
-            const loot = baseMoney * this.combo;
-            this.money += loot;
-
-            // Audio + Bengali voice line
+          if (this.hero.position.distanceTo(shop.triggerPos) < 3.2 && shop.cooldown <= 0) {
+            shop.cooldown = 10;
+            this.money += 500;
             sound.playCashChime();
             sound.speakBanglaExtort();
 
-            // Expand Money Sack on Chandabaz's side
-            const scale = Math.min(1 + this.money / 15000, 2.2);
-            this.moneySack.scale.set(scale, scale, scale);
+            // Bag expansion
+            const s = Math.min(1 + this.money / 15000, 2.2);
+            this.moneySack.scale.set(s, s, s);
 
-            // Flying BDT Currency Particles
-            this.spawnFlyingCurrency(shop.triggerPos);
-
-            // Update UI
             document.getElementById('hud-money').innerText = `৳${this.money.toLocaleString('bn-BD')}`;
-            if (this.combo > 1) {
-              const comboEl = document.getElementById('hud-combo');
-              comboEl.innerText = `COMBO x${this.combo}! 🔥`;
-              comboEl.classList.remove('hidden');
-              setTimeout(() => comboEl.classList.add('hidden'), 2000);
-            }
 
-            // Check Milestone for Scaling Chhatra Janata
-            this.checkThreatEscalation();
+            // Check difficulty milestone
+            if (this.money >= 6000 && this.threatLevel === 2) {
+              this.threatLevel = 3;
+              this.spawnStudents(3);
+              document.getElementById('hud-danger').innerHTML = '<span>চরম প্রতিরোধ 🔥</span>';
+            } else if (this.money >= 2500 && this.threatLevel === 1) {
+              this.threatLevel = 2;
+              this.spawnStudents(2);
+              document.getElementById('hud-danger').innerHTML = '<span>সতর্ক ⚠️</span>';
+            }
           }
         });
       }
 
-      spawnFlyingCurrency(pos) {
-        for (let i = 0; i < 6; i++) {
-          const noteMat = new THREE.MeshBasicMaterial({ color: 0x86efac, side: THREE.DoubleSide });
-          const note = new THREE.Mesh(new THREE.PlaneGeometry(0.6, 0.3), noteMat);
-          note.position.copy(pos);
-          note.position.y += 1.5;
-          note.velocity = new THREE.Vector3((Math.random() - 0.5) * 4, 3 + Math.random() * 2, (Math.random() - 0.5) * 4);
-          this.scene.add(note);
-          this.flyingNotes.push(note);
-        }
-      }
-
-      checkThreatEscalation() {
-        const prevLevel = this.threatLevel;
-        if (this.money >= 12000) this.threatLevel = 4;
-        else if (this.money >= 6000) this.threatLevel = 3;
-        else if (this.money >= 2500) this.threatLevel = 2;
-
-        if (this.threatLevel > prevLevel) {
-          // Whistle Alert & Warning Banner
-          sound.playPoliceWhistle();
-          const alertBanner = document.getElementById('hud-alert');
-          alertBanner.classList.remove('hidden');
-          setTimeout(() => alertBanner.classList.add('hidden'), 3500);
-
-          // Update Threat indicator
-          const labels = ['শান্ত', 'সতর্ক ⚠️', 'উত্তেজিত 🔥', 'চরম প্রতিরোধ ⚡'];
-          document.getElementById('hud-danger').innerHTML = `<span>${labels[this.threatLevel - 1]}</span>`;
-
-          // Spawn more students holding placards
-          this.spawnStudents(3);
-        }
-      }
-
-      /* =========================================================
-         MOB BEATING SEQUENCE (গণধোলাই মোড)
-         ========================================================= */
       triggerMobAssault() {
         this.isMobAssaulting = true;
         this.isGameOver = true;
-
-        // Screen shake effect
         document.body.classList.add('shake');
-        const hitFx = document.getElementById('hit-fx-layer');
-        hitFx.classList.remove('hidden');
+        document.getElementById('hit-fx-layer').classList.remove('hidden');
 
-        // Play punch sounds and animate students surrounding hero
-        let punches = 0;
-        const assaultInterval = setInterval(() => {
+        let hits = 0;
+        const interval = setInterval(() => {
           sound.playMobPunch();
-          punches++;
+          hits++;
+          this.hero.rotation.z = (Math.random() - 0.5) * 0.5;
 
-          // Jitter hero rotation as if getting beaten
-          this.hero.rotation.z = (Math.random() - 0.5) * 0.6;
-          this.hero.rotation.x = (Math.random() - 0.5) * 0.6;
-
-          if (punches >= 6) {
-            clearInterval(assaultInterval);
+          if (hits >= 6) {
+            clearInterval(interval);
             document.body.classList.remove('shake');
-            hitFx.classList.add('hidden');
+            document.getElementById('hit-fx-layer').classList.add('hidden');
 
-            // Show Game Over Modal
             if (this.money > this.highScore) {
               this.highScore = this.money;
               localStorage.setItem('chandabaz_hi', this.highScore);
@@ -1141,10 +755,8 @@
         }, 220);
       }
 
-      restartGame() {
-        // Reset state
+      restart() {
         this.money = 0;
-        this.combo = 1;
         this.threatLevel = 1;
         this.isGameOver = false;
         this.isMobAssaulting = false;
@@ -1156,16 +768,11 @@
         document.getElementById('hud-danger').innerHTML = '<span>শান্ত</span>';
         document.getElementById('gameover-modal').classList.add('hidden');
 
-        // Remove extra students
         while (this.students.length > 3) {
-          const s = this.students.pop();
-          this.scene.remove(s);
+          this.scene.remove(this.students.pop());
         }
       }
 
-      /* =========================================================
-         2D MINIMAP RADAR
-         ========================================================= */
       setupMinimap() {
         this.mapCanvas = document.getElementById('minimap');
         this.mapCtx = this.mapCanvas.getContext('2d');
@@ -1173,37 +780,28 @@
 
       renderMinimap() {
         const ctx = this.mapCtx;
-        const w = 120, h = 120;
+        const w = 110, h = 110;
         ctx.clearRect(0, 0, w, h);
 
-        // Center map on player (x: [-40, 40], z: [-40, 40])
-        const toMapX = (worldX) => (worldX / 80 + 0.5) * w;
-        const toMapY = (worldZ) => (worldZ / 80 + 0.5) * h;
+        const toMapX = x => (x / 75 + 0.5) * w;
+        const toMapY = z => (z / 75 + 0.5) * h;
 
-        // Draw Shops (Yellow Squares)
         ctx.fillStyle = '#f59e0b';
-        this.shops.forEach(s => {
-          ctx.fillRect(toMapX(s.position.x) - 4, toMapY(s.position.z) - 4, 8, 8);
-        });
+        this.shops.forEach(s => ctx.fillRect(toMapX(s.position.x) - 3, toMapY(s.position.z) - 3, 6, 6));
 
-        // Draw Chhatra Janata (Red Dots)
         ctx.fillStyle = '#ef4444';
         this.students.forEach(s => {
           ctx.beginPath();
-          ctx.arc(toMapX(s.position.x), toMapY(s.position.z), 3.5, 0, Math.PI * 2);
+          ctx.arc(toMapX(s.position.x), toMapY(s.position.z), 3, 0, Math.PI * 2);
           ctx.fill();
         });
 
-        // Draw Player Chandabaz (Bright Green Dot)
         ctx.fillStyle = '#10b981';
         ctx.beginPath();
-        ctx.arc(toMapX(this.hero.position.x), toMapY(this.hero.position.z), 5, 0, Math.PI * 2);
+        ctx.arc(toMapX(this.hero.position.x), toMapY(this.hero.position.z), 4, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      /* =========================================================
-         MAIN GAME LOOP (Movement, AI, Animation)
-         ========================================================= */
       update() {
         requestAnimationFrame(() => this.update());
 
@@ -1211,138 +809,84 @@
         const time = this.clock.getElapsedTime();
 
         if (this.isPlaying && !this.isMobAssaulting) {
-          // --- HERO MOVEMENT ---
-          let moveX = 0;
-          let moveZ = 0;
+          let mx = 0, mz = 0;
+          if (this.keys['w'] || this.keys['arrowup']) mz -= 1;
+          if (this.keys['s'] || this.keys['arrowdown']) mz += 1;
+          if (this.keys['a'] || this.keys['arrowleft']) mx -= 1;
+          if (this.keys['d'] || this.keys['arrowright']) mx += 1;
 
-          if (this.keys['w'] || this.keys['arrowup']) moveZ -= 1;
-          if (this.keys['s'] || this.keys['arrowdown']) moveZ += 1;
-          if (this.keys['a'] || this.keys['arrowleft']) moveX -= 1;
-          if (this.keys['d'] || this.keys['arrowright']) moveX += 1;
+          if (Math.abs(this.joystickVector.x) > 0.1) mx = this.joystickVector.x;
+          if (Math.abs(this.joystickVector.y) > 0.1) mz = this.joystickVector.y;
 
-          // Merge Joystick
-          if (Math.abs(this.joystickVector.x) > 0.1) moveX = this.joystickVector.x;
-          if (Math.abs(this.joystickVector.y) > 0.1) moveZ = this.joystickVector.y;
-
-          if (moveX !== 0 || moveZ !== 0) {
-            const length = Math.hypot(moveX, moveZ);
-            const speed = 7.5;
-            this.hero.position.x += (moveX / length) * speed * delta;
-            this.hero.position.z += (moveZ / length) * speed * delta;
-
-            // Turn hero towards movement direction
-            const targetAngle = Math.atan2(moveX, moveZ);
-            this.hero.rotation.y = targetAngle;
-
-            // Arms swinging animation while walking
+          if (mx !== 0 || mz !== 0) {
+            const len = Math.hypot(mx, mz);
+            this.hero.position.x += (mx / len) * 7.5 * delta;
+            this.hero.position.z += (mz / len) * 7.5 * delta;
+            this.hero.rotation.y = Math.atan2(mx, mz);
             this.heroLeftArm.rotation.x = Math.sin(time * 10) * 0.6;
             this.heroRightArm.rotation.x = -Math.sin(time * 10) * 0.6;
           }
 
-          // Confine Hero within Wholesale market bounds
           this.hero.position.x = THREE.MathUtils.clamp(this.hero.position.x, -36, 36);
           this.hero.position.z = THREE.MathUtils.clamp(this.hero.position.z, -36, 36);
 
-          // Camera follows Chandabaz smoothly from third-person angle
-          const camTarget = new THREE.Vector3(
-            this.hero.position.x,
-            this.hero.position.y + 11,
-            this.hero.position.z + 14
-          );
-          this.camera.position.lerp(camTarget, 0.08);
+          // Camera follow
+          this.camera.position.lerp(new THREE.Vector3(this.hero.position.x, this.hero.position.y + 11, this.hero.position.z + 14), 0.08);
           this.camera.lookAt(this.hero.position.x, this.hero.position.y + 1.2, this.hero.position.z);
 
-          // Check Shop Proximity for Extortion Prompt
+          // Extort proximity check
           let canExtort = false;
-          this.shops.forEach(shop => {
-            if (shop.cooldown > 0) shop.cooldown -= delta;
-            const dist = this.hero.position.distanceTo(shop.triggerPos);
-            if (dist < 3.2 && shop.cooldown <= 0) {
-              canExtort = true;
-              shop.extortBeacon.material.opacity = 0.8 + Math.sin(time * 8) * 0.2;
-            } else {
-              shop.extortBeacon.material.opacity = 0.35;
-            }
+          this.shops.forEach(s => {
+            if (s.cooldown > 0) s.cooldown -= delta;
+            if (this.hero.position.distanceTo(s.triggerPos) < 3.2 && s.cooldown <= 0) canExtort = true;
           });
+          document.getElementById('extort-hint').classList.toggle('hidden', !canExtort);
 
-          const hintEl = document.getElementById('extort-hint');
-          if (canExtort) hintEl.classList.remove('hidden');
-          else hintEl.classList.add('hidden');
+          // Students chase & collision
+          this.students.forEach(s => {
+            const d = s.position.distanceTo(this.hero.position);
+            let target = s.patrolTarget;
+            let spd = s.speed;
 
-          // --- CHHATRA JANATA AI (Pursuit & Collision) ---
-          this.students.forEach(student => {
-            const distToHero = student.position.distanceTo(this.hero.position);
-            // Detection range increases with threat level
-            const detectionRange = 7.5 + this.threatLevel * 2.5;
-
-            let target = student.patrolTarget;
-            let currentSpeed = student.speed;
-
-            if (distToHero < detectionRange) {
-              // Chase Chandabaz!
+            if (d < 8 + this.threatLevel * 2) {
               target = this.hero.position;
-              currentSpeed = student.speed * (1.2 + this.threatLevel * 0.1);
-            } else if (student.position.distanceTo(student.patrolTarget) < 2) {
-              // Pick new patrol lane
-              student.patrolTarget.set((Math.random() - 0.5) * 45, 0, (Math.random() - 0.5) * 45);
+              spd *= 1.25;
+            } else if (s.position.distanceTo(s.patrolTarget) < 2) {
+              s.patrolTarget.set((Math.random() - 0.5) * 45, 0, (Math.random() - 0.5) * 45);
             }
 
-            const dir = new THREE.Vector3().subVectors(target, student.position).normalize();
-            student.position.addScaledVector(dir, currentSpeed * delta);
-            student.rotation.y = Math.atan2(dir.x, dir.z);
+            const dir = new THREE.Vector3().subVectors(target, s.position).normalize();
+            s.position.addScaledVector(dir, spd * delta);
+            s.rotation.y = Math.atan2(dir.x, dir.z);
+            s.leftLeg.rotation.x = Math.sin(time * 10) * 0.6;
+            s.rightLeg.rotation.x = -Math.sin(time * 10) * 0.6;
 
-            // Marching Leg animation
-            student.leftLeg.rotation.x = Math.sin(time * 12) * 0.6;
-            student.rightLeg.rotation.x = -Math.sin(time * 12) * 0.6;
-
-            // COLLISION CHECK -> TRIGGER গণধোলাই
-            if (distToHero < 1.4 && !this.isMobAssaulting) {
+            if (d < 1.4 && !this.isMobAssaulting) {
               this.triggerMobAssault();
             }
           });
 
-          // --- LOCAL CROWD AI ---
+          // Moving crowds
           this.crowd.forEach(p => {
-            if (p.position.distanceTo(p.target) < 1.5) {
-              p.target.set((Math.random() - 0.5) * 60, 0, (Math.random() - 0.5) * 60);
-            }
+            if (p.position.distanceTo(p.target) < 1.5) p.target.set((Math.random() - 0.5) * 55, 0, (Math.random() - 0.5) * 55);
             const dir = new THREE.Vector3().subVectors(p.target, p.position).normalize();
             p.position.addScaledVector(dir, p.speed * delta);
             p.rotation.y = Math.atan2(dir.x, dir.z);
           });
 
-          // --- MOVING RICKSHAWS ---
+          // Moving rickshaws
           this.rickshaws.forEach(r => {
-            r.position.z += r.direction * r.speed * delta;
-            r.rotation.y = r.direction > 0 ? 0 : Math.PI;
-            if (Math.abs(r.position.z) > 45) {
-              r.direction *= -1;
-              if (Math.random() < 0.3) sound.playRickshawBell();
-            }
+            r.position.z += r.dir * r.speed * delta;
+            r.rotation.y = r.dir > 0 ? 0 : Math.PI;
+            if (Math.abs(r.position.z) > 40) r.dir *= -1;
           });
 
-          // --- FLYING CASH PARTICLES ---
-          for (let i = this.flyingNotes.length - 1; i >= 0; i--) {
-            const note = this.flyingNotes[i];
-            note.position.addScaledVector(note.velocity, delta);
-            note.rotation.x += 0.1;
-            note.rotation.y += 0.15;
-            note.velocity.y -= 9.8 * delta; // Gravity
-            if (note.position.y <= 0.1) {
-              this.scene.remove(note);
-              this.flyingNotes.splice(i, 1);
-            }
-          }
-
-          // Update Radar Minimap
           this.renderMinimap();
         } else if (this.isMobAssaulting) {
-          // Surround hero closely during mob assault
+          // Crowd swarms around hero
           this.students.forEach((s, idx) => {
-            const angle = (idx / this.students.length) * Math.PI * 2;
-            const targetX = this.hero.position.x + Math.cos(angle) * 1.2;
-            const targetZ = this.hero.position.z + Math.sin(angle) * 1.2;
-            s.position.lerp(new THREE.Vector3(targetX, 0, targetZ), 0.1);
+            const ang = (idx / this.students.length) * Math.PI * 2;
+            s.position.lerp(new THREE.Vector3(this.hero.position.x + Math.cos(ang) * 1.2, 0, this.hero.position.z + Math.sin(ang) * 1.2), 0.1);
             s.lookAt(this.hero.position);
           });
         }
@@ -1351,9 +895,8 @@
       }
     }
 
-    // Launch Game Engine once DOM is ready
     window.addEventListener('DOMContentLoaded', () => {
-      new GameWorld();
+      new Game();
     });
   </script>
 </body>
